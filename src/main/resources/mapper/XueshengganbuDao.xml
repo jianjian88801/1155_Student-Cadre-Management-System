@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.XueshengganbuDao">
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        a.id as id
+        ,a.username as username
+        ,a.password as password
+        ,a.xueshengganbu_name as xueshengganbuName
+        ,a.xueshengganbu_phone as xueshengganbuPhone
+        ,a.xueshengganbu_id_number as xueshengganbuIdNumber
+        ,a.xueshengganbu_photo as xueshengganbuPhoto
+        ,a.xueshengganbu_email as xueshengganbuEmail
+        ,a.sex_types as sexTypes
+        ,a.bumen_types as bumenTypes
+        ,a.zhiwei_types as zhiweiTypes
+        ,a.kaohe as kaohe
+        ,a.jijian as jijian
+        ,a.xinfang as xinfang
+        ,a.lvli as lvli
+        ,a.shenji as shenji
+        ,a.insert_time as insertTime
+        ,a.create_time as createTime
+    </sql>
+    <select id="selectListView" parameterType="map" resultType="com.entity.view.XueshengganbuView" >
+        SELECT
+        <include refid="Base_Column_List" />
+
+--         级联表的字段
+
+        FROM xueshengganbu  a
+
+        <where>
+            <if test="params.ids != null">
+                and a.id in
+                <foreach item="item" index="index" collection="params.ids" open="(" separator="," close=")">
+                #{item}
+                </foreach>
+            </if>
+            <if test=" params.username != '' and params.username != null and params.username != 'null' ">
+                and a.username like CONCAT('%',#{params.username},'%')
+            </if>
+            <if test=" params.password != '' and params.password != null and params.password != 'null' ">
+                and a.password like CONCAT('%',#{params.password},'%')
+            </if>
+            <if test=" params.xueshengganbuName != '' and params.xueshengganbuName != null and params.xueshengganbuName != 'null' ">
+                and a.xueshengganbu_name like CONCAT('%',#{params.xueshengganbuName},'%')
+            </if>
+            <if test=" params.xueshengganbuPhone != '' and params.xueshengganbuPhone != null and params.xueshengganbuPhone != 'null' ">
+                and a.xueshengganbu_phone like CONCAT('%',#{params.xueshengganbuPhone},'%')
+            </if>
+            <if test=" params.xueshengganbuIdNumber != '' and params.xueshengganbuIdNumber != null and params.xueshengganbuIdNumber != 'null' ">
+                and a.xueshengganbu_id_number like CONCAT('%',#{params.xueshengganbuIdNumber},'%')
+            </if>
+            <if test=" params.xueshengganbuEmail != '' and params.xueshengganbuEmail != null and params.xueshengganbuEmail != 'null' ">
+                and a.xueshengganbu_email like CONCAT('%',#{params.xueshengganbuEmail},'%')
+            </if>
+            <if test="params.sexTypes != null and params.sexTypes != ''">
+                and a.sex_types = #{params.sexTypes}
+            </if>
+            <if test="params.bumenTypes != null and params.bumenTypes != ''">
+                and a.bumen_types = #{params.bumenTypes}
+            </if>
+            <if test="params.zhiweiTypes != null and params.zhiweiTypes != ''">
+                and a.zhiwei_types = #{params.zhiweiTypes}
+            </if>
+            <if test="params.kaoheStart != null and params.kaoheStart != ''">
+                <![CDATA[  and a.kaohe >= #{params.kaoheStart}   ]]>
+            </if>
+            <if test="params.kaoheEnd != null and params.kaoheEnd != ''">
+                <![CDATA[  and a.kaohe <= #{params.kaoheEnd}   ]]>
+            </if>
+             <if test="params.kaohe != null and params.kaohe != ''">
+                and a.kaohe = #{params.kaohe}
+             </if>
+            <if test="params.jijianStart != null and params.jijianStart != ''">
+                <![CDATA[  and a.jijian >= #{params.jijianStart}   ]]>
+            </if>
+            <if test="params.jijianEnd != null and params.jijianEnd != ''">
+                <![CDATA[  and a.jijian <= #{params.jijianEnd}   ]]>
+            </if>
+             <if test="params.jijian != null and params.jijian != ''">
+                and a.jijian = #{params.jijian}
+             </if>
+            <if test="params.xinfangStart != null and params.xinfangStart != ''">
+                <![CDATA[  and a.xinfang >= #{params.xinfangStart}   ]]>
+            </if>
+            <if test="params.xinfangEnd != null and params.xinfangEnd != ''">
+                <![CDATA[  and a.xinfang <= #{params.xinfangEnd}   ]]>
+            </if>
+             <if test="params.xinfang != null and params.xinfang != ''">
+                and a.xinfang = #{params.xinfang}
+             </if>
+            <if test="params.lvliStart != null and params.lvliStart != ''">
+                <![CDATA[  and a.lvli >= #{params.lvliStart}   ]]>
+            </if>
+            <if test="params.lvliEnd != null and params.lvliEnd != ''">
+                <![CDATA[  and a.lvli <= #{params.lvliEnd}   ]]>
+            </if>
+             <if test="params.lvli != null and params.lvli != ''">
+                and a.lvli = #{params.lvli}
+             </if>
+            <if test="params.shenjiStart != null and params.shenjiStart != ''">
+                <![CDATA[  and a.shenji >= #{params.shenjiStart}   ]]>
+            </if>
+            <if test="params.shenjiEnd != null and params.shenjiEnd != ''">
+                <![CDATA[  and a.shenji <= #{params.shenjiEnd}   ]]>
+            </if>
+             <if test="params.shenji != null and params.shenji != ''">
+                and a.shenji = #{params.shenji}
+             </if>
+            <if test=" params.insertTimeStart != '' and params.insertTimeStart != null ">
+                <![CDATA[  and UNIX_TIMESTAMP(a.insert_time) >= UNIX_TIMESTAMP(#{params.insertTimeStart}) ]]>
+            </if>
+            <if test=" params.insertTimeEnd != '' and params.insertTimeEnd != null ">
+                <![CDATA[  and UNIX_TIMESTAMP(a.insert_time) <= UNIX_TIMESTAMP(#{params.insertTimeEnd}) ]]>
+            </if>
+
+        </where>
+
+        order by a.${params.orderBy} desc 
+    </select>
+
+</mapper>
